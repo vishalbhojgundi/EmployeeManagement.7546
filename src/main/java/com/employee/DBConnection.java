@@ -5,22 +5,14 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
-    private static final String URL = getEnvOrDefault(
-            "DB_URL",
-            "jdbc:mysql://shuttle.proxy.rlwy.net:((PORT))/ ((DB))" +
-                    "?useSSL=true&requireSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-    );
+    private static final String URL =
+            System.getenv("DB_URL");
 
     private static final String USER =
-            getEnvOrDefault("DB_USER", "root");
+            System.getenv("DB_USER");
 
     private static final String PASSWORD =
-            getEnvOrDefault("DB_PASSWORD", "((Password))");
-
-    private static String getEnvOrDefault(String key, String fallback) {
-        String value = System.getenv(key);
-        return (value != null && !value.trim().isEmpty()) ? value : fallback;
-    }
+            System.getenv("DB_PASSWORD");
 
     public static Connection getConnection() throws Exception {
 
