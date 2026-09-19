@@ -7,7 +7,7 @@ public class DBConnection {
 
     private static final String URL = getEnvOrDefault(
             "DB_URL",
-            "jdbc:mysql://shuttle.proxy.rlwy.net:44790/railway" +
+            "jdbc:mysql://shuttle.proxy.rlwy.net:((PORT))/ ((DB))" +
                     "?useSSL=true&requireSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
     );
 
@@ -15,7 +15,7 @@ public class DBConnection {
             getEnvOrDefault("DB_USER", "root");
 
     private static final String PASSWORD =
-            getEnvOrDefault("DB_PASSWORD", "IggWNkpQwWVHQpYazUPpOzTgODnBVVxT");
+            getEnvOrDefault("DB_PASSWORD", "((Password))");
 
     private static String getEnvOrDefault(String key, String fallback) {
         String value = System.getenv(key);
