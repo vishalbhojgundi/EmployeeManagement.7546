@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app
+        xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        https://jakarta.ee/xml/ns/jakartaee
+        https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+        version="6.0">
+
+    <!-- Employee Add Servlet -->
+
+    <servlet>
+        <servlet-name>EmployeeServlet</servlet-name>
+        <servlet-class>com.employee.EmployeeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EmployeeServlet</servlet-name>
+        <url-pattern>/addEmployee</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- View Employee Servlet -->
+
+    <servlet>
+        <servlet-name>ViewEmployeeServlet</servlet-name>
+        <servlet-class>com.employee.ViewEmployeeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewEmployeeServlet</servlet-name>
+        <url-pattern>/viewEmployees</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- Update Employee Servlet -->
+
+    <servlet>
+        <servlet-name>UpdateEmployeeServlet</servlet-name>
+        <servlet-class>com.employee.UpdateEmployeeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UpdateEmployeeServlet</servlet-name>
+        <url-pattern>/updateEmployee</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- Delete Employee Servlet -->
+
+    <servlet>
+        <servlet-name>DeleteEmployeeServlet</servlet-name>
+        <servlet-class>com.employee.DeleteEmployeeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteEmployeeServlet</servlet-name>
+        <url-pattern>/deleteEmployee</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- Welcome Page -->
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>

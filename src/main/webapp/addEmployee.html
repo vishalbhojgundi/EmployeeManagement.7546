@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Employee</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            👨‍💼
+        </div>
+
+        <div>
+
+            <h2>Employee Management</h2>
+
+            <span>
+                Add Employee
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <button
+                type="button"
+                class="refresh-btn"
+                onclick="refreshPage()">
+
+            🔄 Refresh
+
+        </button>
+
+
+        <a href="index.html"
+           class="home-link">
+
+            🏠 Home
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- MAIN -->
+
+<main class="page-container">
+
+
+    <div class="page-heading">
+
+        <div>
+
+            <h1>Add Employee</h1>
+
+            <p>
+                Enter employee details carefully.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FORM CARD -->
+
+    <div class="form-card">
+
+
+        <div class="form-title">
+
+            <div class="form-title-icon">
+                👤
+            </div>
+
+            <div>
+
+                <h2>Employee Information</h2>
+
+                <p>
+                    All fields marked with * are required.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <form
+                id="employeeForm"
+                action="addEmployee"
+                method="post"
+                novalidate>
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Employee Name *
+                </label>
+
+                <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter employee name"
+                        autocomplete="off">
+
+                <small
+                        id="nameError"
+                        class="error">
+                </small>
+
+            </div>
+
+
+
+            <!-- AGE -->
+
+            <div class="form-group">
+
+                <label for="age">
+                    Age *
+                </label>
+
+                <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        placeholder="Enter age"
+                        min="18"
+                        max="65">
+
+                <small
+                        id="ageError"
+                        class="error">
+                </small>
+
+            </div>
+
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="form-group">
+
+                <label for="experience">
+                    Experience (Years) *
+                </label>
+
+                <input
+                        type="number"
+                        id="experience"
+                        name="experience"
+                        placeholder="Example: 2.5"
+                        min="0"
+                        max="40"
+                        step="0.1">
+
+                <small
+                        id="experienceError"
+                        class="error">
+                </small>
+
+            </div>
+
+
+
+            <!-- DEPARTMENT -->
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department *
+                </label>
+
+                <select
+                        id="department"
+                        name="department">
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option value="IT">
+                        IT
+                    </option>
+
+                    <option value="HR">
+                        HR
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Marketing">
+                        Marketing
+                    </option>
+
+                </select>
+
+                <small
+                        id="departmentError"
+                        class="error">
+                </small>
+
+            </div>
+
+
+
+            <!-- STATE -->
+
+            <div class="form-group">
+
+                <label for="state">
+                    State *
+                </label>
+
+                <select
+                        id="state"
+                        name="state">
+
+                    <option value="">
+                        Select State
+                    </option>
+
+                    <option>Andhra Pradesh</option>
+                    <option>Arunachal Pradesh</option>
+                    <option>Assam</option>
+                    <option>Bihar</option>
+                    <option>Chhattisgarh</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Jharkhand</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Manipur</option>
+                    <option>Meghalaya</option>
+                    <option>Mizoram</option>
+                    <option>Nagaland</option>
+                    <option>Odisha</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Sikkim</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Tripura</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Uttarakhand</option>
+                    <option>West Bengal</option>
+
+                </select>
+
+                <small
+                        id="stateError"
+                        class="error">
+                </small>
+
+            </div>
+
+
+
+            <!-- COUNTRY -->
+
+            <div class="form-group">
+
+                <label for="country">
+                    Country
+                </label>
+
+                <input
+                        type="text"
+                        id="country"
+                        name="country"
+                        value="India"
+                        readonly>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-buttons">
+
+
+                <button
+                        type="button"
+                        class="btn btn-clear"
+                        onclick="clearForm()">
+
+                    🧹 Clear
+
+                </button>
+
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                    ➕ Add Employee
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+</main>
+
+
+<script src="validation.js"></script>
+
+</body>
+
+</html>
