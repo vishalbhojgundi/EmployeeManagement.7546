@@ -24,7 +24,7 @@ public class ViewEmployeeServlet extends HttpServlet {
 
         String sql =
                 "SELECT id, name, age, department, experience, state, country " +
-                        "FROM employee ORDER BY id DESC";
+                        "FROM employee ORDER BY id ASC";
 
         try (
                 Connection con = DBConnection.getConnection();
@@ -49,7 +49,7 @@ public class ViewEmployeeServlet extends HttpServlet {
 
             request.setAttribute("employees", employees);
 
-            request.getRequestDispatcher("employees.jsp")
+            request.getRequestDispatcher("/employees.jsp")
                     .forward(request, response);
 
         } catch (Exception e) {
@@ -60,9 +60,7 @@ public class ViewEmployeeServlet extends HttpServlet {
 
             response.getWriter().println(
                     "<h2>Unable to load employees</h2>" +
-                            "<p>" +
-                            e.getMessage() +
-                            "</p>"
+                            "<p>" + e.getMessage() + "</p>"
             );
         }
     }

@@ -1,4 +1,6 @@
+<%@ page import="java.util.List" %>
 <%@ page import="com.employee.Employee" %>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -10,54 +12,49 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Edit Employee</title>
+    <title>Employee List</title>
 
     <link rel="stylesheet"
           href="style.css">
 
 </head>
 
-
 <body>
 
-
-<%
-    Employee employee = (Employee) request.getAttribute("employee");
-
-    if (employee == null) {
-        response.sendRedirect("viewEmployees");
-        return;
-    }
-
-    String[] departments = {"IT", "HR", "Finance", "Marketing"};
-
-    String[] states = {
-            "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
-            "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
-            "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
-            "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
-            "Uttar Pradesh", "Uttarakhand", "West Bengal"
-    };
-%>
+<div class="dashboard">
 
 
-<!-- TOP BAR -->
-
+    <!-- TOP BAR -->
 <header class="topbar">
 
     <div class="brand">
 
         <div class="brand-icon">
-            👨‍💼
+
+            <svg width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M20 21a8 8 0 0 0-16 0"></path>
+
+                <circle cx="12"
+                        cy="7"
+                        r="4"></circle>
+
+            </svg>
+
         </div>
 
         <div>
 
             <h2>Employee Management</h2>
 
-            <span>
-                Edit Employee
-            </span>
+            <span>Employee List</span>
 
         </div>
 
@@ -66,17 +63,54 @@
 
     <div class="top-actions">
 
-        <a href="viewEmployees"
-           class="home-link">
+        <a href="index.html"
+           class="header-action">
 
-            👥 Employee List
+            <svg width="18"
+                 height="18"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M3 11.5L12 4l9 7.5"></path>
+
+                <path d="M5 10v10h14V10"></path>
+
+                <path d="M9 20v-6h6v6"></path>
+
+            </svg>
+
+            <span>Home</span>
 
         </a>
 
-        <a href="index.html"
-           class="home-link">
 
-            🏠 Home
+        <a href="addEmployee.html"
+           class="header-action">
+
+            <svg width="18"
+                 height="18"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="12"
+                        cy="12"
+                        r="9"></circle>
+
+                <path d="M12 8v8"></path>
+
+                <path d="M8 12h8"></path>
+
+            </svg>
+
+            <span>Add Employee</span>
 
         </a>
 
@@ -84,272 +118,151 @@
 
 </header>
 
+    <!-- MAIN -->
+
+    <main class="page-container">
 
 
-<!-- MAIN -->
+        <!-- HEADING -->
 
-<main class="page-container">
+        <div class="page-heading">
 
-
-    <div class="page-heading">
-
-        <div>
-
-            <h1>Edit Employee</h1>
+            <h1>Employee List</h1>
 
             <p>
-                Update the details below and save your changes.
+                View and manage all employee records.
             </p>
 
         </div>
 
-    </div>
 
 
+        <!-- EMPLOYEE TABLE -->
 
-    <!-- FORM CARD -->
+        <div class="table-container">
 
-    <div class="form-card">
+            <%
+                List<Employee> employees =
+                        (List<Employee>) request.getAttribute("employees");
+            %>
 
 
-        <div class="form-title">
+            <%
+                if (employees == null || employees.isEmpty()) {
+            %>
 
-            <div class="form-title-icon">
-                ✏️
-            </div>
+                <div class="empty">
 
-            <div>
+                    <div style="font-size: 45px;">
+                        👥
+                    </div>
 
-                <h2>Employee Information</h2>
+                    <h2>No Employees Found</h2>
 
-                <p>
-                    All fields marked with * are required.
-                </p>
+                    <p>
+                        There are currently no employee records.
+                    </p>
 
-            </div>
+                    <br>
+
+                    <a href="addEmployee.html"
+                       class="btn btn-primary">
+
+                        ➕ Add Employee
+
+                    </a>
+
+                </div>
+
+            <%
+                } else {
+            %>
+
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Name</th>
+
+                        <th>Age</th>
+
+                        <th>Department</th>
+
+                        <th>Experience</th>
+
+                        <th>State</th>
+
+                        <th>Country</th>
+
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    <%
+                        for (Employee employee : employees) {
+                    %>
+
+                    <tr>
+
+                        <td>
+                            <%= employee.getId() %>
+                        </td>
+
+                        <td>
+                            <%= employee.getName() %>
+                        </td>
+
+                        <td>
+                            <%= employee.getAge() %>
+                        </td>
+
+                        <td>
+                            <%= employee.getDepartment() %>
+                        </td>
+
+                        <td>
+                            <%= employee.getExperience() %> Years
+                        </td>
+
+                        <td>
+                            <%= employee.getState() %>
+                        </td>
+
+                        <td>
+                            <%= employee.getCountry() %>
+                        </td>
+
+                    </tr>
+
+                    <%
+                        }
+                    %>
+
+                    </tbody>
+
+                </table>
+
+
+            <%
+                }
+            %>
 
         </div>
 
 
+    </main>
 
-        <form
-                id="employeeForm"
-                action="updateEmployee"
-                method="post"
-                novalidate>
 
-
-            <input type="hidden" name="id" value="<%= employee.getId() %>">
-
-
-            <!-- NAME -->
-
-            <div class="form-group">
-
-                <label for="name">
-                    Employee Name *
-                </label>
-
-                <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value="<%= employee.getName() %>"
-                        placeholder="Enter employee name"
-                        autocomplete="off">
-
-                <small
-                        id="nameError"
-                        class="error">
-                </small>
-
-            </div>
-
-
-
-            <!-- AGE -->
-
-            <div class="form-group">
-
-                <label for="age">
-                    Age *
-                </label>
-
-                <input
-                        type="number"
-                        id="age"
-                        name="age"
-                        value="<%= employee.getAge() %>"
-                        placeholder="Enter age"
-                        min="18"
-                        max="65">
-
-                <small
-                        id="ageError"
-                        class="error">
-                </small>
-
-            </div>
-
-
-
-            <!-- EXPERIENCE -->
-
-            <div class="form-group">
-
-                <label for="experience">
-                    Experience (Years) *
-                </label>
-
-                <input
-                        type="number"
-                        id="experience"
-                        name="experience"
-                        value="<%= employee.getExperience() %>"
-                        placeholder="Example: 2.5"
-                        min="0"
-                        max="40"
-                        step="0.1">
-
-                <small
-                        id="experienceError"
-                        class="error">
-                </small>
-
-            </div>
-
-
-
-            <!-- DEPARTMENT -->
-
-            <div class="form-group">
-
-                <label for="department">
-                    Department *
-                </label>
-
-                <select
-                        id="department"
-                        name="department">
-
-                    <option value="">
-                        Select Department
-                    </option>
-
-                    <%
-                        for (String dept : departments) {
-                            String selected = dept.equals(employee.getDepartment()) ? "selected" : "";
-                    %>
-
-                    <option value="<%= dept %>" <%= selected %>>
-                        <%= dept %>
-                    </option>
-
-                    <%
-                        }
-                    %>
-
-                </select>
-
-                <small
-                        id="departmentError"
-                        class="error">
-                </small>
-
-            </div>
-
-
-
-            <!-- STATE -->
-
-            <div class="form-group">
-
-                <label for="state">
-                    State *
-                </label>
-
-                <select
-                        id="state"
-                        name="state">
-
-                    <option value="">
-                        Select State
-                    </option>
-
-                    <%
-                        for (String st : states) {
-                            String selected = st.equals(employee.getState()) ? "selected" : "";
-                    %>
-
-                    <option <%= selected %>><%= st %></option>
-
-                    <%
-                        }
-                    %>
-
-                </select>
-
-                <small
-                        id="stateError"
-                        class="error">
-                </small>
-
-            </div>
-
-
-
-            <!-- COUNTRY -->
-
-            <div class="form-group">
-
-                <label for="country">
-                    Country
-                </label>
-
-                <input
-                        type="text"
-                        id="country"
-                        name="country"
-                        value="<%= employee.getCountry() %>"
-                        readonly>
-
-            </div>
-
-
-
-            <!-- BUTTONS -->
-
-            <div class="form-buttons">
-
-                <a
-                        href="viewEmployees"
-                        class="btn btn-clear">
-
-                    ✖ Cancel
-
-                </a>
-
-
-                <button
-                        type="submit"
-                        class="btn btn-primary">
-
-                    💾 Save Changes
-
-                </button>
-
-            </div>
-
-
-        </form>
-
-    </div>
-
-
-</main>
-
-
-<script src="validation.js"></script>
+</div>
 
 </body>
 
