@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -8,360 +9,170 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Employee Management System</title>
+    <title>Admin Login - Employee Management</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
-<body>
+<body class="login-body">
 
-<div class="dashboard">
 
-    <!-- ================= HEADER ================= -->
+<div class="login-container">
 
-    <header class="topbar">
 
-        <div class="brand">
+    <div class="login-card">
 
-            <div class="brand-icon">
-                👨‍💼
-            </div>
 
-            <div class="brand-text">
-
-                <h2>Employee Management</h2>
-
-                <span>Management System</span>
-
-            </div>
-
+        <div class="login-icon">
+            👨‍💼
         </div>
 
 
-        <div class="top-actions">
+        <h1>
+            Employee Management
+        </h1>
 
-            <span class="admin-badge">
-                👤 Admin
-            </span>
 
-        </div>
-
-    </header>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="dashboard-container">
-
-
-        <!-- WELCOME -->
-
-        <section class="welcome-section">
-
-            <div>
-
-                <p class="welcome-small">
-                    Welcome back 👋
-                </p>
-
-                <h1>
-                    Employee Dashboard
-                </h1>
-
-                <p class="welcome-description">
-                    Manage your employees, view records and
-                    maintain employee information easily.
-                </p>
-
-            </div>
-
-        </section>
-        <section class="summary-grid">
-
-
-            <!-- TOTAL EMPLOYEES -->
-
-            <div class="summary-card">
-
-                <div class="summary-icon purple">
-                    👥
-                </div>
-
-                <div>
-
-                    <p>Total Employees</p>
-
-                    <h2 id="totalEmployees">
-                        Loading...
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <!-- DEPARTMENTS -->
-
-            <div class="summary-card">
-
-                <div class="summary-icon blue">
-                    🏢
-                </div>
-
-                <div>
-
-                    <p>Departments</p>
-
-                    <h2 id="totalDepartments">
-                        Loading...
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <!-- STATES -->
-
-            <div class="summary-card">
-
-                <div class="summary-icon green">
-                    🌎
-                </div>
-
-                <div>
-
-                    <p>States</p>
-
-                    <h2 id="totalStates">
-                        Loading...
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <!-- AVERAGE EXPERIENCE -->
-
-            <div class="summary-card">
-
-                <div class="summary-icon orange">
-                    📊
-                </div>
-
-                <div>
-
-                    <p>Average Experience</p>
-
-                    <h2 id="averageExperience">
-                        Loading...
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-        </section>
-        <!-- ================= QUICK ACTIONS ================= -->
-
-        <section class="section-heading">
-
-            <div>
-
-                <h2>Quick Actions</h2>
-
-                <p>
-                    Choose an action to manage employee information.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <section class="actions-grid">
-
-
-            <!-- ADD EMPLOYEE -->
-
-            <a href="addEmployee.html"
-               class="action-card">
-
-                <div class="action-icon add-icon">
-                    ➕
-                </div>
-
-                <div class="action-content">
-
-                    <h3>Add Employee</h3>
-
-                    <p>
-                        Add a new employee to the system.
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </a>
-
-
-
-            <!-- VIEW EMPLOYEES -->
-
-            <a href="viewEmployees"
-               class="action-card">
-
-                <div class="action-icon view-icon">
-                    👥
-                </div>
-
-                <div class="action-content">
-
-                    <h3>View Employees</h3>
-
-                    <p>
-                        View and manage all employee records.
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </a>
-
-
-        </section>
-
-
-
-        <!-- ================= INFORMATION ================= -->
-
-        <section class="info-card">
-
-            <div class="info-icon">
-                💡
-            </div>
-
-            <div>
-
-                <h3>Employee Management System</h3>
-
-                <p>
-                    Use this system to add, view, update and
-                    delete employee information efficiently.
-                </p>
-
-            </div>
-
-        </section>
-
-
-    </main>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer class="footer">
-
-        <p>
-            © 2026 Employee Management System
+        <p class="login-subtitle">
+            Administrator Login
         </p>
 
-        <span>
-            Java • MySQL • Tomcat
-        </span>
 
-    </footer>
-    <script>
-
-        async function loadDashboardStats() {
-
-            try {
-
-                const response =
-                    await fetch("dashboardStats");
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Failed to load dashboard statistics"
-                    );
-
-                }
-
-                const data =
-                    await response.json();
+        <div
+                id="loginMessage"
+                class="login-message">
+        </div>
 
 
-                document.getElementById(
-                    "totalEmployees"
-                ).textContent =
-                    data.totalEmployees;
+        <form
+                action="login"
+                method="post">
 
 
-                document.getElementById(
-                    "totalDepartments"
-                ).textContent =
-                    data.totalDepartments;
+            <div class="login-group">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter username"
+                        required>
+
+            </div>
 
 
-                document.getElementById(
-                    "totalStates"
-                ).textContent =
-                    data.totalStates;
+            <div class="login-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required>
+
+            </div>
 
 
-                document.getElementById(
-                    "averageExperience"
-                ).textContent =
-                    data.averageExperience + " Years";
+            <button
+                    type="submit"
+                    class="login-button">
+
+                🔐 Login
+
+            </button>
 
 
-            } catch (error) {
-
-                console.error(
-                    "Dashboard error:",
-                    error
-                );
+        </form>
 
 
-                document.getElementById(
-                    "totalEmployees"
-                ).textContent = "0";
+        <div class="login-footer">
+
+            Employee Management System
+
+        </div>
 
 
-                document.getElementById(
-                    "totalDepartments"
-                ).textContent = "0";
-
-
-                document.getElementById(
-                    "totalStates"
-                ).textContent = "0";
-
-
-                document.getElementById(
-                    "averageExperience"
-                ).textContent = "0 Years";
-
-            }
-
-        }
-
-
-        loadDashboardStats();
-
-    </script>
+    </div>
 
 </div>
+
+
+<script>
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const error =
+        params.get("error");
+
+    const logout =
+        params.get("logout");
+
+    const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    if (error === "invalid") {
+
+        message.textContent =
+            "Invalid username or password.";
+
+        message.classList.add(
+            "login-error"
+        );
+
+    }
+
+
+    if (error === "empty") {
+
+        message.textContent =
+            "Please enter username and password.";
+
+        message.classList.add(
+            "login-error"
+        );
+
+    }
+
+
+    if (error === "database") {
+
+        message.textContent =
+            "Database connection error.";
+
+        message.classList.add(
+            "login-error"
+        );
+
+    }
+
+
+    if (logout === "true") {
+
+        message.textContent =
+            "You have been logged out successfully.";
+
+        message.classList.add(
+            "login-success"
+        );
+
+    }
+
+</script>
+
 
 </body>
 

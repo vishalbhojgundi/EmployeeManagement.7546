@@ -6,19 +6,21 @@ public class Employee {
     private String name;
     private int age;
     private String department;
-    private int experience;
+    private float experience;
     private String state;
     private String country;
 
+
     public Employee() {
     }
+
 
     public Employee(
             int id,
             String name,
             int age,
             String department,
-            int experience,
+            float experience,
             String state,
             String country) {
 
@@ -31,11 +33,12 @@ public class Employee {
         this.country = country;
     }
 
+
     public Employee(
             String name,
             int age,
             String department,
-            int experience,
+            float experience,
             String state,
             String country) {
 
@@ -46,6 +49,7 @@ public class Employee {
         this.state = state;
         this.country = country;
     }
+
 
     public int getId() {
         return id;
@@ -55,6 +59,7 @@ public class Employee {
         this.id = id;
     }
 
+
     public String getName() {
         return name;
     }
@@ -62,6 +67,7 @@ public class Employee {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public int getAge() {
         return age;
@@ -71,6 +77,7 @@ public class Employee {
         this.age = age;
     }
 
+
     public String getDepartment() {
         return department;
     }
@@ -79,13 +86,15 @@ public class Employee {
         this.department = department;
     }
 
+
     public float getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience(float experience) {
         this.experience = experience;
     }
+
 
     public String getState() {
         return state;
@@ -94,6 +103,7 @@ public class Employee {
     public void setState(String state) {
         this.state = state;
     }
+
 
     public String getCountry() {
         return country;

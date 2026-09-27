@@ -12,7 +12,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Employee List</title>
+    <title>Employees</title>
 
     <link rel="stylesheet"
           href="style.css">
@@ -24,37 +24,19 @@
 <div class="dashboard">
 
 
-    <!-- TOP BAR -->
 <header class="topbar">
 
     <div class="brand">
 
         <div class="brand-icon">
-
-            <svg width="24"
-                 height="24"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-
-                <path d="M20 21a8 8 0 0 0-16 0"></path>
-
-                <circle cx="12"
-                        cy="7"
-                        r="4"></circle>
-
-            </svg>
-
+            👥
         </div>
 
-        <div>
+        <div class="brand-text">
 
             <h2>Employee Management</h2>
 
-            <span>Employee List</span>
+            <span>Employee Records</span>
 
         </div>
 
@@ -63,54 +45,24 @@
 
     <div class="top-actions">
 
-        <a href="index.html"
+        <a href="dashboard"
            class="header-action">
 
-            <svg width="18"
-                 height="18"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-
-                <path d="M3 11.5L12 4l9 7.5"></path>
-
-                <path d="M5 10v10h14V10"></path>
-
-                <path d="M9 20v-6h6v6"></path>
-
-            </svg>
-
-            <span>Home</span>
+            📊 Dashboard
 
         </a>
 
-
-        <a href="addEmployee.html"
+        <a href="addEmployee"
            class="header-action">
 
-            <svg width="18"
-                 height="18"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
+            ➕ Add Employee
 
-                <circle cx="12"
-                        cy="12"
-                        r="9"></circle>
+        </a>
 
-                <path d="M12 8v8"></path>
+        <a href="logout"
+           class="header-action">
 
-                <path d="M8 12h8"></path>
-
-            </svg>
-
-            <span>Add Employee</span>
+            🚪 Logout
 
         </a>
 
@@ -118,149 +70,231 @@
 
 </header>
 
-    <!-- MAIN -->
 
-    <main class="page-container">
+<main class="page-container">
 
 
-        <!-- HEADING -->
+    <div class="page-heading">
 
-        <div class="page-heading">
+        <h1>Employee Management</h1>
 
-            <h1>Employee List</h1>
+        <p>
+            Search and manage employee records.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-card">
+
+        <form
+                action="viewEmployees"
+                method="get"
+                class="search-form">
+
+            <input
+                    type="text"
+                    name="search"
+                    value="<%= request.getAttribute("search") == null ? "" : request.getAttribute("search") %>"
+                    placeholder="Search by name, department or state...">
+
+            <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                🔍 Search
+
+            </button>
+
+
+            <a
+                    href="viewEmployees"
+                    class="btn btn-clear">
+
+                Reset
+
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <div class="table-container">
+
+
+        <%
+
+            List<Employee> employees =
+                    (List<Employee>)
+                    request.getAttribute(
+                            "employees"
+                    );
+
+        %>
+
+
+        <%
+
+            if (
+                    employees == null ||
+                    employees.isEmpty()
+            ) {
+
+        %>
+
+
+        <div class="empty">
+
+            <div style="font-size:45px;">
+                👥
+            </div>
+
+            <h2>
+                No Employees Found
+            </h2>
 
             <p>
-                View and manage all employee records.
+                No employee records match your search.
             </p>
 
         </div>
 
 
+        <%
 
-        <!-- EMPLOYEE TABLE -->
+            } else {
 
-        <div class="table-container">
+        %>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Name</th>
+
+                <th>Age</th>
+
+                <th>Department</th>
+
+                <th>Experience</th>
+
+                <th>State</th>
+
+                <th>Country</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
 
             <%
-                List<Employee> employees =
-                        (List<Employee>) request.getAttribute("employees");
+
+                for (
+                        Employee employee :
+                        employees
+                ) {
+
             %>
 
 
-            <%
-                if (employees == null || employees.isEmpty()) {
-            %>
+            <tr>
 
-                <div class="empty">
+                <td>
+                    <%= employee.getId() %>
+                </td>
 
-                    <div style="font-size: 45px;">
-                        👥
+                <td>
+                    <strong>
+                        <%= employee.getName() %>
+                    </strong>
+                </td>
+
+                <td>
+                    <%= employee.getAge() %>
+                </td>
+
+                <td>
+                    <%= employee.getDepartment() %>
+                </td>
+
+                <td>
+                    <%= employee.getExperience() %>
+                    Years
+                </td>
+
+                <td>
+                    <%= employee.getState() %>
+                </td>
+
+                <td>
+                    <%= employee.getCountry() %>
+                </td>
+
+
+                <td>
+
+                    <div class="actions-cell">
+
+                        <a
+                                href="updateEmployee?id=<%= employee.getId() %>"
+                                class="action-btn action-edit">
+
+                            ✏️ Edit
+
+                        </a>
+
+
+                        <a
+                                href="deleteEmployee?id=<%= employee.getId() %>"
+                                class="action-btn action-delete"
+                                onclick="return confirm('Are you sure you want to delete this employee?');">
+
+                            🗑️ Delete
+
+                        </a>
+
                     </div>
 
-                    <h2>No Employees Found</h2>
+                </td>
 
-                    <p>
-                        There are currently no employee records.
-                    </p>
-
-                    <br>
-
-                    <a href="addEmployee.html"
-                       class="btn btn-primary">
-
-                        ➕ Add Employee
-
-                    </a>
-
-                </div>
-
-            <%
-                } else {
-            %>
-
-
-                <table>
-
-                    <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-
-                        <th>Name</th>
-
-                        <th>Age</th>
-
-                        <th>Department</th>
-
-                        <th>Experience</th>
-
-                        <th>State</th>
-
-                        <th>Country</th>
-
-
-                    </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                    <%
-                        for (Employee employee : employees) {
-                    %>
-
-                    <tr>
-
-                        <td>
-                            <%= employee.getId() %>
-                        </td>
-
-                        <td>
-                            <%= employee.getName() %>
-                        </td>
-
-                        <td>
-                            <%= employee.getAge() %>
-                        </td>
-
-                        <td>
-                            <%= employee.getDepartment() %>
-                        </td>
-
-                        <td>
-                            <%= employee.getExperience() %> Years
-                        </td>
-
-                        <td>
-                            <%= employee.getState() %>
-                        </td>
-
-                        <td>
-                            <%= employee.getCountry() %>
-                        </td>
-
-                    </tr>
-
-                    <%
-                        }
-                    %>
-
-                    </tbody>
-
-                </table>
+            </tr>
 
 
             <%
+
                 }
+
             %>
 
-        </div>
+
+            </tbody>
+
+        </table>
 
 
-    </main>
+        <%
 
+            }
+
+        %>
+
+
+    </div>
+
+</main>
 
 </div>
 

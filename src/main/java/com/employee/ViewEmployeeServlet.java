@@ -20,47 +20,118 @@ public class ViewEmployeeServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Employee> employees = new ArrayList<>();
+        List<Employee> employees =
+                new ArrayList<>();
+
+
+        String search =
+                request.getParameter("search");
+
+
+        if (search == null) {
+            search = "";
+        }
+
 
         String sql =
-                "SELECT id, name, age, department, experience, state, country " +
-                        "FROM employee ORDER BY id ASC";
+                "SELECT id, name, age, department, " +
+                        "experience, state, country " +
+                        "FROM employee " +
+                        "WHERE name LIKE ? " +
+                        "OR department LIKE ? " +
+                        "OR state LIKE ? " +
+                        "OR country LIKE ? " +
+                        "ORDER BY id ASC";
+
+
+        String keyword =
+                "%" + search.trim() + "%";
+
 
         try (
-                Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()
+                Connection con =
+                        DBConnection.getConnection();
+
+                PreparedStatement ps =
+                        con.prepareStatement(sql)
         ) {
 
-            while (rs.next()) {
+            ps.setString(1, keyword);
+            ps.setString(2, keyword);
+            ps.setString(3, keyword);
+            ps.setString(4, keyword);
 
-                Employee employee = new Employee();
 
-                employee.setId(rs.getInt("id"));
-                employee.setName(rs.getString("name"));
-                employee.setAge(rs.getInt("age"));
-                employee.setDepartment(rs.getString("department"));
-                employee.setExperience(rs.getInt("experience"));
-                employee.setState(rs.getString("state"));
-                employee.setCountry(rs.getString("country"));
+            try (
+                    ResultSet rs =
+                            ps.executeQuery()
+            ) {
 
-                employees.add(employee);
+                while (rs.next()) {
+
+                    Employee employee =
+                            new Employee();
+
+                    employee.setId(
+                            rs.getInt("id")
+                    );
+
+                    employee.setName(
+                            rs.getString("name")
+                    );
+
+                    employee.setAge(
+                            rs.getInt("age")
+                    );
+
+                    employee.setDepartment(
+                            rs.getString("department")
+                    );
+
+                    employee.setExperience(
+                            rs.getFloat("experience")
+                    );
+
+                    employee.setState(
+                            rs.getString("state")
+                    );
+
+                    employee.setCountry(
+                            rs.getString("country")
+                    );
+
+
+                    employees.add(employee);
+                }
             }
 
-            request.setAttribute("employees", employees);
 
-            request.getRequestDispatcher("/employees.jsp")
-                    .forward(request, response);
+            request.setAttribute(
+                    "employees",
+                    employees
+            );
+
+            request.setAttribute(
+                    "search",
+                    search
+            );
+
+
+            request.getRequestDispatcher(
+                    "/employees.jsp"
+            ).forward(
+                    request,
+                    response
+            );
+
 
         } catch (Exception e) {
 
             e.printStackTrace();
 
-            response.setContentType("text/html;charset=UTF-8");
-
-            response.getWriter().println(
-                    "<h2>Unable to load employees</h2>" +
-                            "<p>" + e.getMessage() + "</p>"
+            response.sendError(
+                    500,
+                    "Unable to load employees."
             );
         }
     }

@@ -1,0 +1,19 @@
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Smart Tomcat
+.smarttomcat/
+
+# IntelliJ output
+out/
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db

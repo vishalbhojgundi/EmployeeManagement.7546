@@ -1,20 +1,4 @@
 <%@ page import="com.employee.Employee" %>
-<%@ page import="java.util.List" %>
-
-<%
-    Employee employee =
-            (Employee) request.getAttribute("employee");
-
-    List<String> departments =
-            (List<String>)
-            request.getAttribute("departments");
-
-    if (employee == null) {
-        response.sendRedirect("viewEmployees");
-        return;
-    }
-%>
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -33,24 +17,47 @@
 
 </head>
 
+
 <body>
 
-<div class="dashboard">
 
+<%
+    Employee employee = (Employee) request.getAttribute("employee");
+
+    if (employee == null) {
+        response.sendRedirect("viewEmployees");
+        return;
+    }
+
+    String[] departments = {"IT", "HR", "Finance", "Marketing"};
+
+    String[] states = {
+            "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+            "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
+            "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+            "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+            "Uttar Pradesh", "Uttarakhand", "West Bengal"
+    };
+%>
+
+
+<!-- TOP BAR -->
 
 <header class="topbar">
 
     <div class="brand">
 
         <div class="brand-icon">
-            ✏️
+            👨‍💼
         </div>
 
-        <div class="brand-text">
+        <div>
 
             <h2>Employee Management</h2>
 
-            <span>Edit Employee</span>
+            <span>
+                Edit Employee
+            </span>
 
         </div>
 
@@ -60,16 +67,16 @@
     <div class="top-actions">
 
         <a href="viewEmployees"
-           class="header-action">
+           class="home-link">
 
-            👥 Employees
+            👥 Employee List
 
         </a>
 
-        <a href="logout"
-           class="header-action">
+        <a href="index.html"
+           class="home-link">
 
-            🚪 Logout
+            🏠 Home
 
         </a>
 
@@ -78,19 +85,29 @@
 </header>
 
 
+
+<!-- MAIN -->
+
 <main class="page-container">
 
 
     <div class="page-heading">
 
-        <h1>Edit Employee</h1>
+        <div>
 
-        <p>
-            Update employee information.
-        </p>
+            <h1>Edit Employee</h1>
+
+            <p>
+                Update the details below and save your changes.
+            </p>
+
+        </div>
 
     </div>
 
+
+
+    <!-- FORM CARD -->
 
     <div class="form-card">
 
@@ -106,12 +123,13 @@
                 <h2>Employee Information</h2>
 
                 <p>
-                    Update the required information.
+                    All fields marked with * are required.
                 </p>
 
             </div>
 
         </div>
+
 
 
         <form
@@ -121,15 +139,14 @@
                 novalidate>
 
 
-            <input
-                    type="hidden"
-                    name="id"
-                    value="<%= employee.getId() %>">
+            <input type="hidden" name="id" value="<%= employee.getId() %>">
 
+
+            <!-- NAME -->
 
             <div class="form-group">
 
-                <label>
+                <label for="name">
                     Employee Name *
                 </label>
 
@@ -138,7 +155,8 @@
                         id="name"
                         name="name"
                         value="<%= employee.getName() %>"
-                        placeholder="Employee name">
+                        placeholder="Enter employee name"
+                        autocomplete="off">
 
                 <small
                         id="nameError"
@@ -148,9 +166,12 @@
             </div>
 
 
+
+            <!-- AGE -->
+
             <div class="form-group">
 
-                <label>
+                <label for="age">
                     Age *
                 </label>
 
@@ -159,6 +180,7 @@
                         id="age"
                         name="age"
                         value="<%= employee.getAge() %>"
+                        placeholder="Enter age"
                         min="18"
                         max="65">
 
@@ -170,10 +192,13 @@
             </div>
 
 
+
+            <!-- EXPERIENCE -->
+
             <div class="form-group">
 
-                <label>
-                    Experience *
+                <label for="experience">
+                    Experience (Years) *
                 </label>
 
                 <input
@@ -181,6 +206,7 @@
                         id="experience"
                         name="experience"
                         value="<%= employee.getExperience() %>"
+                        placeholder="Example: 2.5"
                         min="0"
                         max="40"
                         step="0.1">
@@ -193,9 +219,12 @@
             </div>
 
 
+
+            <!-- DEPARTMENT -->
+
             <div class="form-group">
 
-                <label>
+                <label for="department">
                     Department *
                 </label>
 
@@ -208,36 +237,16 @@
                     </option>
 
                     <%
-
-                        if (departments != null) {
-
-                            for (
-                                    String department :
-                                    departments
-                            ) {
-
-                                String selected =
-                                        department.equals(
-                                                employee.getDepartment()
-                                        )
-                                                ? "selected"
-                                                : "";
-
+                        for (String dept : departments) {
+                            String selected = dept.equals(employee.getDepartment()) ? "selected" : "";
                     %>
 
-                    <option
-                            value="<%= department %>"
-                            <%= selected %>>
-
-                        <%= department %>
-
+                    <option value="<%= dept %>" <%= selected %>>
+                        <%= dept %>
                     </option>
 
                     <%
-
-                            }
                         }
-
                     %>
 
                 </select>
@@ -250,9 +259,12 @@
             </div>
 
 
+
+            <!-- STATE -->
+
             <div class="form-group">
 
-                <label>
+                <label for="state">
                     State *
                 </label>
 
@@ -265,64 +277,14 @@
                     </option>
 
                     <%
-
-                        String[] states = {
-
-                            "Andhra Pradesh",
-                            "Arunachal Pradesh",
-                            "Assam",
-                            "Bihar",
-                            "Chhattisgarh",
-                            "Goa",
-                            "Gujarat",
-                            "Haryana",
-                            "Himachal Pradesh",
-                            "Jharkhand",
-                            "Karnataka",
-                            "Kerala",
-                            "Madhya Pradesh",
-                            "Maharashtra",
-                            "Manipur",
-                            "Meghalaya",
-                            "Mizoram",
-                            "Nagaland",
-                            "Odisha",
-                            "Punjab",
-                            "Rajasthan",
-                            "Sikkim",
-                            "Tamil Nadu",
-                            "Telangana",
-                            "Tripura",
-                            "Uttar Pradesh",
-                            "Uttarakhand",
-                            "West Bengal"
-                        };
-
-
-                        for (String state :
-                                states) {
-
-                            String selected =
-                                    state.equals(
-                                            employee.getState()
-                                    )
-                                            ? "selected"
-                                            : "";
-
+                        for (String st : states) {
+                            String selected = st.equals(employee.getState()) ? "selected" : "";
                     %>
 
-                    <option
-                            value="<%= state %>"
-                            <%= selected %>>
-
-                        <%= state %>
-
-                    </option>
+                    <option <%= selected %>><%= st %></option>
 
                     <%
-
                         }
-
                     %>
 
                 </select>
@@ -335,20 +297,27 @@
             </div>
 
 
+
+            <!-- COUNTRY -->
+
             <div class="form-group">
 
-                <label>
+                <label for="country">
                     Country
                 </label>
 
                 <input
                         type="text"
+                        id="country"
                         name="country"
                         value="<%= employee.getCountry() %>"
                         readonly>
 
             </div>
 
+
+
+            <!-- BUTTONS -->
 
             <div class="form-buttons">
 
@@ -376,9 +345,8 @@
 
     </div>
 
-</main>
 
-</div>
+</main>
 
 
 <script src="validation.js"></script>

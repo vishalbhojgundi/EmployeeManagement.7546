@@ -1,19 +1,4 @@
-<%@ page import="com.employee.Employee" %>
 <%@ page import="java.util.List" %>
-
-<%
-    Employee employee =
-            (Employee) request.getAttribute("employee");
-
-    List<String> departments =
-            (List<String>)
-            request.getAttribute("departments");
-
-    if (employee == null) {
-        response.sendRedirect("viewEmployees");
-        return;
-    }
-%>
 
 <!DOCTYPE html>
 
@@ -26,7 +11,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Edit Employee</title>
+    <title>Add Employee</title>
 
     <link rel="stylesheet"
           href="style.css">
@@ -43,14 +28,14 @@
     <div class="brand">
 
         <div class="brand-icon">
-            ✏️
+            👨‍💼
         </div>
 
         <div class="brand-text">
 
             <h2>Employee Management</h2>
 
-            <span>Edit Employee</span>
+            <span>Add Employee</span>
 
         </div>
 
@@ -59,10 +44,10 @@
 
     <div class="top-actions">
 
-        <a href="viewEmployees"
+        <a href="dashboard"
            class="header-action">
 
-            👥 Employees
+            🏠 Dashboard
 
         </a>
 
@@ -83,10 +68,10 @@
 
     <div class="page-heading">
 
-        <h1>Edit Employee</h1>
+        <h1>Add Employee</h1>
 
         <p>
-            Update employee information.
+            Add a new employee to the organization.
         </p>
 
     </div>
@@ -98,7 +83,7 @@
         <div class="form-title">
 
             <div class="form-title-icon">
-                ✏️
+                👤
             </div>
 
             <div>
@@ -106,7 +91,7 @@
                 <h2>Employee Information</h2>
 
                 <p>
-                    Update the required information.
+                    All fields marked with * are required.
                 </p>
 
             </div>
@@ -116,20 +101,14 @@
 
         <form
                 id="employeeForm"
-                action="updateEmployee"
+                action="addEmployee"
                 method="post"
                 novalidate>
 
 
-            <input
-                    type="hidden"
-                    name="id"
-                    value="<%= employee.getId() %>">
-
-
             <div class="form-group">
 
-                <label>
+                <label for="name">
                     Employee Name *
                 </label>
 
@@ -137,8 +116,7 @@
                         type="text"
                         id="name"
                         name="name"
-                        value="<%= employee.getName() %>"
-                        placeholder="Employee name">
+                        placeholder="Enter employee name">
 
                 <small
                         id="nameError"
@@ -150,7 +128,7 @@
 
             <div class="form-group">
 
-                <label>
+                <label for="age">
                     Age *
                 </label>
 
@@ -158,9 +136,9 @@
                         type="number"
                         id="age"
                         name="age"
-                        value="<%= employee.getAge() %>"
                         min="18"
-                        max="65">
+                        max="65"
+                        placeholder="Enter age">
 
                 <small
                         id="ageError"
@@ -172,18 +150,18 @@
 
             <div class="form-group">
 
-                <label>
-                    Experience *
+                <label for="experience">
+                    Experience (Years) *
                 </label>
 
                 <input
                         type="number"
                         id="experience"
                         name="experience"
-                        value="<%= employee.getExperience() %>"
                         min="0"
                         max="40"
-                        step="0.1">
+                        step="0.1"
+                        placeholder="Example: 2.5">
 
                 <small
                         id="experienceError"
@@ -195,7 +173,7 @@
 
             <div class="form-group">
 
-                <label>
+                <label for="department">
                     Department *
                 </label>
 
@@ -209,6 +187,12 @@
 
                     <%
 
+                        List<String> departments =
+                                (List<String>)
+                                request.getAttribute(
+                                        "departments"
+                                );
+
                         if (departments != null) {
 
                             for (
@@ -216,21 +200,10 @@
                                     departments
                             ) {
 
-                                String selected =
-                                        department.equals(
-                                                employee.getDepartment()
-                                        )
-                                                ? "selected"
-                                                : "";
-
                     %>
 
-                    <option
-                            value="<%= department %>"
-                            <%= selected %>>
-
+                    <option value="<%= department %>">
                         <%= department %>
-
                     </option>
 
                     <%
@@ -252,7 +225,7 @@
 
             <div class="form-group">
 
-                <label>
+                <label for="state">
                     State *
                 </label>
 
@@ -264,66 +237,34 @@
                         Select State
                     </option>
 
-                    <%
-
-                        String[] states = {
-
-                            "Andhra Pradesh",
-                            "Arunachal Pradesh",
-                            "Assam",
-                            "Bihar",
-                            "Chhattisgarh",
-                            "Goa",
-                            "Gujarat",
-                            "Haryana",
-                            "Himachal Pradesh",
-                            "Jharkhand",
-                            "Karnataka",
-                            "Kerala",
-                            "Madhya Pradesh",
-                            "Maharashtra",
-                            "Manipur",
-                            "Meghalaya",
-                            "Mizoram",
-                            "Nagaland",
-                            "Odisha",
-                            "Punjab",
-                            "Rajasthan",
-                            "Sikkim",
-                            "Tamil Nadu",
-                            "Telangana",
-                            "Tripura",
-                            "Uttar Pradesh",
-                            "Uttarakhand",
-                            "West Bengal"
-                        };
-
-
-                        for (String state :
-                                states) {
-
-                            String selected =
-                                    state.equals(
-                                            employee.getState()
-                                    )
-                                            ? "selected"
-                                            : "";
-
-                    %>
-
-                    <option
-                            value="<%= state %>"
-                            <%= selected %>>
-
-                        <%= state %>
-
-                    </option>
-
-                    <%
-
-                        }
-
-                    %>
+                    <option>Andhra Pradesh</option>
+                    <option>Arunachal Pradesh</option>
+                    <option>Assam</option>
+                    <option>Bihar</option>
+                    <option>Chhattisgarh</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Jharkhand</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Manipur</option>
+                    <option>Meghalaya</option>
+                    <option>Mizoram</option>
+                    <option>Nagaland</option>
+                    <option>Odisha</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Sikkim</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Tripura</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Uttarakhand</option>
+                    <option>West Bengal</option>
 
                 </select>
 
@@ -337,14 +278,15 @@
 
             <div class="form-group">
 
-                <label>
+                <label for="country">
                     Country
                 </label>
 
                 <input
                         type="text"
+                        id="country"
                         name="country"
-                        value="<%= employee.getCountry() %>"
+                        value="India"
                         readonly>
 
             </div>
@@ -362,21 +304,31 @@
 
 
                 <button
+                        type="button"
+                        class="btn btn-clear"
+                        onclick="clearForm()">
+
+                    🧹 Clear
+
+                </button>
+
+
+                <button
                         type="submit"
                         class="btn btn-primary">
 
-                    💾 Save Changes
+                    ➕ Add Employee
 
                 </button>
 
             </div>
-
 
         </form>
 
     </div>
 
 </main>
+
 
 </div>
 
