@@ -1,25 +1,34 @@
-# Build stage
+# ==============================
+# BUILD STAGE
+# ==============================
 FROM maven:3.9.12-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
+# Copy Maven configuration
 COPY pom.xml .
 
-RUN mvn dependency:go-offline
+# Download dependencies
+RUN mvn dependency:go-offline -B
 
+# Copy source code
 COPY src ./src
 
-RUN mvn clean package -DskipTests
+# Build WAR file
+RUN mvn clean package -DskipTests -B
 
 
-# Runtime stage
+# ==============================
+# RUNTIME STAGE
+# ==============================
 FROM tomcat:10.1-jdk17-temurin
 
+# Remove default Tomcat applications
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=build /app/target/EmployeeManagement.war /usr/local/tomcat/webapps/ROOT.war
+# Copy our WAR as ROOT application
+COPY --from=build /app/target/EmployeeManagement.war \
+    /usr/local/tomcat/webapps/ROOT.war
 
-# Vercel provides PORT
-ENV CATALINA_OPTS=""
-
+# Start Tomcat using Vercel PORT
 CMD ["sh", "-c", "sed -i \"s/port=\\\"8080\\\"/port=\\\"${PORT:-80}\\\"/\" /usr/local/tomcat/conf/server.xml && catalina.sh run"]
