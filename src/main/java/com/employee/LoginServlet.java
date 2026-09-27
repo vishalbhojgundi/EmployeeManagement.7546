@@ -28,25 +28,32 @@ public class LoginServlet extends HttpServlet {
                 request.getParameter("password");
 
 
+        // Validate empty fields
         if (username == null ||
                 password == null ||
                 username.trim().isEmpty() ||
                 password.trim().isEmpty()) {
 
-            response.sendRedirect("index.html?error=empty");
+            response.sendRedirect(
+                    "index.html?error=empty"
+            );
 
             return;
         }
 
 
-        String passwordHash =
-                PasswordUtil.hashPassword(password);
-
+        /*
+         * Direct password comparison.
+         *
+         * Database:
+         * username = Vishal
+         * password = Change@4559
+         */
 
         String sql =
                 "SELECT id, username, full_name " +
                         "FROM admin_user " +
-                        "WHERE username = ? AND password_hash = ?";
+                        "WHERE username = ? AND password = ?";
 
 
         try (
@@ -57,27 +64,43 @@ public class LoginServlet extends HttpServlet {
                         con.prepareStatement(sql)
         ) {
 
-            ps.setString(1, username.trim());
-            ps.setString(2, passwordHash);
+            ps.setString(
+                    1,
+                    username.trim()
+            );
+
+            ps.setString(
+                    2,
+                    password
+            );
 
 
-            try (ResultSet rs =
-                         ps.executeQuery()) {
+            try (
+                    ResultSet rs =
+                            ps.executeQuery()
+            ) {
 
                 if (rs.next()) {
 
+                    /*
+                     * Login successful
+                     */
+
                     HttpSession session =
                             request.getSession(true);
+
 
                     session.setAttribute(
                             "adminId",
                             rs.getInt("id")
                     );
 
+
                     session.setAttribute(
                             "adminUsername",
                             rs.getString("username")
                     );
+
 
                     session.setAttribute(
                             "adminName",
@@ -90,6 +113,10 @@ public class LoginServlet extends HttpServlet {
                     );
 
                 } else {
+
+                    /*
+                     * Login failed
+                     */
 
                     response.sendRedirect(
                             "index.html?error=invalid"
